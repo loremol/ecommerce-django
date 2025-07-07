@@ -12,10 +12,10 @@ with open("secret.txt", "w") as file:
 with open("secret.txt") as file:
     SECRET_KEY = file.read()
 
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["https://ecommerce-django-production-f55b.up.railway.app"]
-CORS_ALLOWED_ORIGINS = ["https://ecommerce-django-production-f55b.up.railway.app"]
+ALLOWED_HOSTS = ["localhost", "https://ecommerce-django-production-f55b.up.railway.app"]
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://localhost:8000", "https://ecommerce-django-production-f55b.up.railway.app"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
