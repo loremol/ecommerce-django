@@ -14,8 +14,8 @@ with open("secret.txt") as file:
 
 DEBUG = False
 
-ALLOWED_HOSTS = [os.getenv("RAILWAY_PUBLIC_DOMAIN")]
-CORS_ALLOWED_ORIGINS = [os.getenv("RAILWAY_PUBLIC_DOMAIN")]
+ALLOWED_HOSTS = ["https://ecommerce-django-production-f55b.up.railway.app/"]
+CORS_ALLOWED_ORIGINS = ["https://ecommerce-django-production-f55b.up.railway.app/"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
