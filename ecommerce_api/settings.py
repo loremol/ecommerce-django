@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 
-from django.conf.global_settings import DATABASES
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,8 +14,8 @@ with open("secret.txt") as file:
 
 DEBUG = False
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
-CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = [os.getenv("RAILWAY_PUBLIC_DOMAIN")]
+CORS_ALLOWED_ORIGINS = [os.getenv("RAILWAY_PUBLIC_DOMAIN")]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -84,7 +83,7 @@ WSGI_APPLICATION = 'ecommerce_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
+db_from_env = dj_database_url.config(conn_max_age=600)
 
 DATABASES = {
     'default': {
