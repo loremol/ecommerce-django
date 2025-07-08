@@ -46,7 +46,6 @@ def login_view(request):
             secure=True,
             max_age=3600,
             samesite='None',
-
         )
         return response
 
