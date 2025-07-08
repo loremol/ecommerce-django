@@ -18,7 +18,8 @@ ALLOWED_HOSTS = ["localhost", "127.0.0.1", "ecommerce-django-production-f55b.up.
 CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000",
                         "http://localhost:8000",
                         "http://0.0.0.0:8000",
-                        "https://ecommerce-django-production-f55b.up.railway.app"]
+                        "https://ecommerce-django-production-f55b.up.railway.app",
+                        "https://loremol.github.io"]
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 # Session cookie
