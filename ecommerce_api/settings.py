@@ -20,7 +20,7 @@ CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000",
                         "http://0.0.0.0:8000",
                         "https://ecommerce-django-production-f55b.up.railway.app"]
 CORS_ALLOW_ALL_ORIGINS = True
-
+CORS_ALLOW_CREDENTIALS = True
 # Session cookie
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SECURE = True
