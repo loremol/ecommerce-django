@@ -49,6 +49,7 @@ def login_view(request):
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def logout_view(request):
+    request.user.auth_token = request.COOKIES.get('auth_token')
     request.user.auth_token.delete()
     logout(request)
     return Response({'message': 'Logged out successfully'})
