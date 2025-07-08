@@ -38,7 +38,13 @@ def login_view(request):
         return Response({
             'user': UserSerializer(user).data,
             'token': token.key},
-            status=status.HTTP_200_OK)
+            status=status.HTTP_200_OK).set_cookie(
+            'auth_token',
+            value=token.key,
+            httponly=True,
+            secure=True,
+            max_age=3600
+        )
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
