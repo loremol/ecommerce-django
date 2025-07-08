@@ -29,7 +29,7 @@ SESSION_COOKIE_SAMESITE = 'None'
 # CSRF cookie
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SECURE = True
-CSRF_TRUSTED_ORIGINS = ["https://ecommerce-django-production-f55b.up.railway.app"]
+CSRF_TRUSTED_ORIGINS = ["https://ecommerce-django-production-f55b.up.railway.app", "null"]
 CSRF_COOKIE_SAMESITE = 'None'
 
 INSTALLED_APPS = [
