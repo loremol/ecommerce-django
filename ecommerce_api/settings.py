@@ -26,11 +26,7 @@ CORS_ALLOW_CREDENTIALS = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 
-# CSRF cookie
-CSRF_COOKIE_SECURE = True
-# CSRF_COOKIE_HTTPONLY = False
-CSRF_TRUSTED_ORIGINS = ["https://loremol.github.io"]
-CSRF_COOKIE_SAMESITE = 'None'
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -53,7 +49,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
