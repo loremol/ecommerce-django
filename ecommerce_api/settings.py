@@ -28,6 +28,7 @@ SESSION_COOKIE_SAMESITE = 'None'
 
 # CSRF cookie
 # CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_HTTPONLY = False
 CSRF_TRUSTED_ORIGINS = ["https://loremol.github.io"]
 # CSRF_COOKIE_SAMESITE = 'None'
 
