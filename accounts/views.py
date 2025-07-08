@@ -44,7 +44,8 @@ def login_view(request):
             value=token.key,
             httponly=True,
             secure=True,
-            max_age=3600
+            max_age=3600,
+            samesite=None
         )
         return response
 
