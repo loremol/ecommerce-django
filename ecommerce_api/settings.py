@@ -15,8 +15,21 @@ with open("secret.txt") as file:
 DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "ecommerce-django-production-f55b.up.railway.app"]
-CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000", "http://localhost:8000", "http://0.0.0.0:8000", "https://ecommerce-django-production-f55b.up.railway.app"]
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:8000",
+                        "http://localhost:8000",
+                        "http://0.0.0.0:8000",
+                        "https://ecommerce-django-production-f55b.up.railway.app"]
+CORS_ALLOW_ALL_ORIGINS = True
+
+# Session cookie
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+
+# CSRF cookie
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = ["https://ecommerce-django-production-f55b.up.railway.app"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -44,10 +57,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-CSRF_COOKIE_SECURE = True
-CSRF_TRUSTED_ORIGINS = ["https://ecommerce-django-production-f55b.up.railway.app"]
-SESSION_COOKIE_SECURE = True
 
 
 REST_FRAMEWORK = {

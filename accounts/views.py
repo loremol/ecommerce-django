@@ -34,10 +34,15 @@ def login(request):
             return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'user': UserSerializer(user).data,
-            'token': token.key
-        })
+        response = Response({'message': 'Login successful'})
+        response.set_cookie(
+            'auth_token',
+            value=token.key,
+            httponly=True,
+            secure=True,
+            samesite='Lax'
+        )
+        return response
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
