@@ -12,7 +12,7 @@ from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSe
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
-def register(request):
+def register_view(request):
     serializer = UserRegistrationSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
@@ -26,7 +26,7 @@ def register(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
-def login(request):
+def login_view(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.validated_data
@@ -48,7 +48,7 @@ def login(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def logout(request):
+def logout_view(request):
     request.user.auth_token.delete()
     logout(request)
     return Response({'message': 'Logged out successfully'})
