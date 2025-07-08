@@ -26,7 +26,7 @@ def register(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
-def login_view(request):
+def login(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.validated_data
@@ -43,7 +43,7 @@ def login_view(request):
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
-def logout_view(request):
+def logout(request):
     request.user.auth_token.delete()
     logout(request)
     return Response({'message': 'Logged out successfully'})
