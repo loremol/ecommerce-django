@@ -1,5 +1,6 @@
 from django.contrib.auth import login, logout
 from django.db.models.functions import datetime
+from django.http import HttpResponse
 from rest_framework import permissions, status, generics
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
@@ -34,7 +35,7 @@ def login(request):
             return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
-        response = Response({'message': 'Login successful'})
+        response = HttpResponse({'message': 'Login successful'})
         response.set_cookie(
             'auth_token',
             value=token.key,
