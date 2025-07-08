@@ -28,7 +28,7 @@ SESSION_COOKIE_SAMESITE = 'None'
 
 # CSRF cookie
 CSRF_TRUSTED_ORIGINS = ["https://loremol.github.io"]
-
+CSRF_COOKIE_SAMESITE = 'None'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
