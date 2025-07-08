@@ -12,7 +12,7 @@ from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSe
 
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
-def register_view(request):
+def register(request):
     serializer = UserRegistrationSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.save()
@@ -24,6 +24,7 @@ def register_view(request):
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
 def login_view(request):
@@ -34,23 +35,18 @@ def login_view(request):
             return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
         login(request, user)
         token, created = Token.objects.get_or_create(user=user)
-        response = Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
-        response.set_cookie(
-            'auth_token',
-            value=token.key,
-            httponly=True,
-            secure=True,
-            samesite='Lax'
-        )
-        return response
+        return Response({
+            'user': UserSerializer(user).data,
+            'token': token.key},
+            status=status.HTTP_200_OK)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 @permission_classes([permissions.IsAuthenticated])
 def logout_view(request):
-    print(request.COOKIES.get('auth_token'))
-    request.user.auth_token = request.COOKIES.get('auth_token')
+    request.user.auth_token.delete()
     logout(request)
     return Response({'message': 'Logged out successfully'})
 
@@ -59,6 +55,7 @@ def logout_view(request):
 class ListUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
 
 @api_view(['GET'])
 @permission_classes([IsModerator])
@@ -89,6 +86,7 @@ def ban_user(request):
     user.save()
 
     return Response({'message': f'User {username} banned successfully'}, status=status.HTTP_200_OK)
+
 
 @api_view(['POST'])
 @permission_classes([IsModerator])
