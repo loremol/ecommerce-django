@@ -27,6 +27,7 @@ SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_SAMESITE = 'None'
 
 
+CSRF_TRUSTED_ORIGINS = ["https://loremol.github.io"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
