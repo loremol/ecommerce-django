@@ -1,5 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import Group
 from django.db.models.functions import datetime
+from ecdsa.test_keys import mod_apply
 from rest_framework import permissions, status, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -12,7 +14,6 @@ from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSe
 
 
 @api_view(['POST'])
-@permission_classes([permissions.AllowAny])
 def register(request):
     serializer = UserRegistrationSerializer(data=request.data)
     if serializer.is_valid():
@@ -27,7 +28,6 @@ def register(request):
 
 
 @api_view(['POST'])
-@permission_classes([permissions.AllowAny])
 def login_view(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
@@ -45,11 +45,11 @@ def login_view(request):
 @authentication_classes([TokenAuthentication])
 def logout_view(request):
     request.user.auth_token.delete()
-    return Response({'message': 'Logged out successfully'})
+    return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
 
 
-@permission_classes([IsModerator])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsModerator])
 class ListUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
@@ -104,3 +104,13 @@ def unban_user(request):
     user.updated_at = datetime.datetime.now()
     user.save()
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
+
+sandokan_user = CustomUser.objects.get(username='sandokan')
+sandokan_user.is_staff = True
+sandokan_user.save()
+
+yanez_user = CustomUser.objects.get(username='yanez')
+mod_group = Group.objects.get(name='Moderators')
+yanez_user.groups.add(mod_group)
+yanez_user.save()
+

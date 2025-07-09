@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, status, permissions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
 from products.models import Category, Product
@@ -22,6 +22,7 @@ class ProductListView(generics.ListCreateAPIView):
 
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
 def create_product(request):
     serializer = SimpleProductSerializer(data=request.data) # Using a different serializer that doesn't require Category object but only its id
     if serializer.is_valid():
@@ -31,6 +32,7 @@ def create_product(request):
 
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
 def delete_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
     product.delete()
@@ -38,6 +40,7 @@ def delete_product(request, pk):
 
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
 def create_category(request):
     serializer = CategorySerializer(data=request.data)
     if serializer.is_valid():
@@ -47,6 +50,7 @@ def create_category(request):
 
 @api_view(["DELETE"])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
 def delete_category(request, pk):
     category = get_object_or_404(Category, pk=pk)
     category.delete()
