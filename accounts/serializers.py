@@ -44,28 +44,16 @@ class UserLoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'phone', 'address', 'date_of_birth', 'is_banned', 'created_at',
-                  'updated_at']
+        fields = ['id', 'username', 'email', 'phone', 'address', 'date_of_birth', 'is_banned', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at']
 
 
-class UpdateUserSerializer(serializers.ModelSerializer):
+class UserUpdateSerializer(serializers.ModelSerializer):
+    phone = serializers.CharField(required=False, allow_blank=True)
+    address = serializers.CharField(required=False, allow_blank=True)
+    date_of_birth = serializers.DateField(required=False, allow_blank=True)
+
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'phone', 'address', 'date_of_birth']
 
-    def validate(self, attrs):
-        username = attrs.get('username')
-        email = attrs.get('email')
-        password = attrs.get('password')
-        phone = attrs.get('phone')
-        address = attrs.get('address')
-        date_of_birth = attrs.get('date_of_birth')
-
-        if not username or not email or not password:
-            raise serializers.ValidationError("username, email, password fields are required")
-
-        if username or email or password or phone or address or date_of_birth:
-            return True
-        else:
-            raise serializers.ValidationError("No fields to update")

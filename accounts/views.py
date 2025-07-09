@@ -70,16 +70,22 @@ def get_own_profile(request):
     serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['PUT'])
-@authentication_classes([TokenAuthentication])
-def update_own_profile(request):
-    user = request.user
-    serializer = UpdateUserSerializer(user, data=request.data)
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class UserUpdate(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = UpdateUserSerializer
+    lookup_field = 'id'
+    authentication_classes = [TokenAuthentication]
+
+    def put(self, request, *args, **kwargs):
+        instance = request.user
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['PUT'])
