@@ -41,9 +41,14 @@ class UserLoginSerializer(serializers.Serializer):
         return user
 
 
-class UserSerializer(serializers.ModelSerializer):
+class UpdateUserSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True, allow_blank=True)
+    password = serializers.CharField(write_only=True, allow_blank=True)
+    phone = serializers.CharField(max_length=15, allow_blank=True)
+    address = serializers.CharField(max_length=255, allow_blank=True)
+    date_of_birth = serializers.DateField(allow_blank=True)
+
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'phone', 'address', 'date_of_birth', 'is_banned', 'created_at',
-                  'updated_at']
+        fields = ['username', 'email', 'phone', 'address', 'date_of_birth']
         read_only_fields = ['id', 'created_at']
