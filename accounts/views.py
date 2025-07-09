@@ -74,7 +74,8 @@ def get_own_profile(request):
 @authentication_classes([TokenAuthentication])
 def update_own_profile(request):
     user = request.user
-    serializer = UpdateUserSerializer(data=request.data)
+    serializer = UpdateUserSerializer(user, data=request.data)
+
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
