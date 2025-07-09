@@ -1,7 +1,5 @@
-from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import Group
 from django.db.models.functions import datetime
-from ecdsa.test_keys import mod_apply
 from rest_framework import permissions, status, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
