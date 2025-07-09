@@ -95,13 +95,11 @@ def update_user(request):
     if CustomUser.objects.filter(email=email).exclude(id=user.id).exists():
         return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Update user fields
     user.username = username
     user.email = email
     user.phone = phone
     user.address = address
 
-    # Handle date_of_birth (can be null/blank)
     if date_of_birth:
         user.date_of_birth = date_of_birth
 
