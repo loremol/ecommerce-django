@@ -3,7 +3,7 @@ from django.db.models.functions import datetime
 from rest_framework import permissions, status, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
 from products.permissions import IsModerator
@@ -44,7 +44,7 @@ def login_view(request):
 
 
 @api_view(['POST'])
-@permission_classes([TokenAuthentication])
+@authentication_classes([TokenAuthentication])
 def logout_view(request):
     request.user.auth_token.delete()
     return Response({'message': 'Logged out successfully'})
