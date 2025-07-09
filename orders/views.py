@@ -211,7 +211,7 @@ def get_order_details(request, pk):
 def delete_order(request, pk):
     order = Order.objects.get(pk=pk)
 
-    if order.status != 'P' or order.status != 'C':
+    if order.status != 'P' and order.status != 'C':
         return Response({'error': f'Order #{pk} is not pending nor cancelled and cannot be deleted'},
                         status=status.HTTP_403_FORBIDDEN)
 
