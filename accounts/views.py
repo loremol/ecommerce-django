@@ -63,7 +63,7 @@ def get_user(request, pk):
     return Response(UserSerializer(user).data)
 
 
-@api_view(['PUT'])
+@api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def get_own_profile(request):
     user = request.user
