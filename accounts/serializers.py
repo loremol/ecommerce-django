@@ -64,6 +64,10 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         phone = attrs.get('phone')
         address = attrs.get('address')
         date_of_birth = attrs.get('date_of_birth')
+
+        if not username or not email or not password:
+            raise serializers.ValidationError("username, email, password fields are required")
+
         if username or email or password or phone or address or date_of_birth:
             return True
 
