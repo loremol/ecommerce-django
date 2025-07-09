@@ -12,7 +12,6 @@ from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSe
 
 
 @api_view(['POST'])
-@permission_classes([permissions.AllowAny])
 def register(request):
     serializer = UserRegistrationSerializer(data=request.data)
     if serializer.is_valid():
@@ -27,7 +26,6 @@ def register(request):
 
 
 @api_view(['POST'])
-@permission_classes([permissions.AllowAny])
 def login_view(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
@@ -51,12 +49,14 @@ def logout_view(request):
 
 
 @permission_classes([IsModerator])
+@authentication_classes([TokenAuthentication])
 class ListUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
 
 @api_view(['GET'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def get_user(request, pk):
     user = CustomUser.objects.get(pk=pk)
@@ -66,6 +66,7 @@ def get_user(request, pk):
 
 
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def ban_user(request):
     username = request.data.get('username')
@@ -88,6 +89,7 @@ def ban_user(request):
 
 
 @api_view(['POST'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def unban_user(request):
     username = request.data.get('username')

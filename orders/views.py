@@ -1,9 +1,9 @@
 from decimal import Decimal
 
 from rest_framework import generics, status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from cart.models import Cart
@@ -12,7 +12,7 @@ from orders.serializers import OrderSerializer, OrderItemSerializer
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def get_user_orders(request):
     orders = Order.objects.filter(user=request.user)
     serializer = OrderSerializer(orders, many=True)
@@ -20,7 +20,7 @@ def get_user_orders(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def checkout(request):
     try:
         # Get the user's cart
@@ -102,7 +102,7 @@ def checkout(request):
         )
 
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def delete_order(request, pk):
     order = Order.objects.get(pk=pk)
 
@@ -120,7 +120,7 @@ def delete_order(request, pk):
     return Response({'message': 'Order deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def get_order_details(request, pk):
     order = Order.objects.get(pk=pk)
     if order.user != request.user:

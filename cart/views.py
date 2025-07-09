@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import generics, status
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
 from cart.models import Cart, CartItem, Discount
@@ -12,11 +12,10 @@ from products.models import Product
 class CartListView(generics.ListAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
-    permission_classes = [IsAuthenticated]
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def get_cart(request):
     try:
         cart, created = Cart.objects.get_or_create(user=request.user)
@@ -33,7 +32,7 @@ def get_cart(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def add_to_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     serializer = CartItemSerializer(data=request.data)
@@ -81,7 +80,7 @@ def add_to_cart(request):
 
 
 @api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def clear_cart(request):
     cart = get_object_or_404(Cart, user=request.user)
     cart.items.all().delete()
@@ -91,7 +90,7 @@ def clear_cart(request):
 
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([TokenAuthentication])
 def apply_discount(request):
     cart = get_object_or_404(Cart, user=request.user)
     discount_code = request.data.get('discount_code')
