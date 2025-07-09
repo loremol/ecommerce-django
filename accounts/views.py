@@ -108,7 +108,7 @@ sandokan_user.is_staff = True
 sandokan_user.save()
 
 yanez_user = CustomUser.objects.get(username='yanez')
-mod_group = Group.objects.get(name='Moderators')
+mod_group, created = Group.objects.get_or_create(name='Moderators')
 yanez_user.groups.add(mod_group)
 yanez_user.save()
 
