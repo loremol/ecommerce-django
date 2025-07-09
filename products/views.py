@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics, status, permissions
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework.response import Response
 
 from products.models import Category, Product
@@ -13,12 +13,16 @@ class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny]
+    http_method_names = ["GET"]
 
 
 class ProductListView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny]
+    http_method_names = ["GET"]
 
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication])
@@ -28,6 +32,17 @@ def create_product(request):
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["PUT"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def update_product(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    serializer = ProductSerializer(product, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["DELETE"])
@@ -43,6 +58,17 @@ def delete_product(request, pk):
 @permission_classes([IsAdminUser])
 def create_category(request):
     serializer = CategorySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["PUT"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def update_category(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    serializer = CategorySerializer(category, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
