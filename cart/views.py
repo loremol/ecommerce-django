@@ -127,7 +127,7 @@ def delete_discount(request, pk):
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
-def get_discounts():
+def get_discounts(request):
     discounts = Discount.objects.all()
     serializer = DiscountSerializer(discounts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
