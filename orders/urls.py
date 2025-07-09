@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import get_user_orders, delete_order, get_order_details, checkout
 
 urlpatterns = [

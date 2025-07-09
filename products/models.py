@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
@@ -10,6 +11,7 @@ class Category(models.Model):
     class Meta:
         verbose_name_plural = 'Categories'
 
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
@@ -18,7 +20,6 @@ class Product(models.Model):
     stock_quantity = models.PositiveIntegerField(default=0)
     weight = models.CharField(max_length=50, blank=True)
     dimensions = models.CharField(max_length=50, blank=True)
-
 
     def __str__(self):
         return self.name
@@ -33,4 +34,3 @@ class Product(models.Model):
     def increase_stock(self, quantity):
         self.stock_quantity += quantity
         self.save()
-

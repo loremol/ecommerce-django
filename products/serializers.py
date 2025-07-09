@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from unicodedata import category
 
 from products.models import Category, Product
 
@@ -22,4 +21,3 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'price', 'description', 'category', 'stock_quantity', 'weight', 'dimensions']
-

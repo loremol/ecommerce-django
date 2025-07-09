@@ -1,11 +1,11 @@
 import os
 from pathlib import Path
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 import secrets
+
 with open("secret.txt", "w") as file:
     file.write(secrets.token_urlsafe().strip())
 
@@ -16,8 +16,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["ecommerce-django-production-f55b.up.railway.app"]
 CORS_ALLOWED_ORIGINS = ["https://loremol.github.io"]
-
-
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -38,10 +36,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
     ]
 }
 
@@ -70,6 +70,7 @@ WSGI_APPLICATION = 'ecommerce_api.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 import dj_database_url
+
 db_from_env = dj_database_url.config(conn_max_age=600)
 
 DATABASES = {
@@ -114,7 +115,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -7,4 +7,3 @@ class IsModerator(permissions.BasePermission):
                 request.user.is_staff or
                 request.user.groups.filter(name='Moderators').exists()
         )
-

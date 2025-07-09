@@ -1,8 +1,8 @@
 from decimal import Decimal
 
-from rest_framework import generics, status
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
@@ -85,7 +85,6 @@ def checkout(request):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-
         # Clear the cart after successful order creation
         cart.items.all().delete()
 
@@ -101,6 +100,7 @@ def checkout(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
 
+
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 def delete_order(request, pk):
@@ -110,7 +110,8 @@ def delete_order(request, pk):
         return Response({'error': 'You do not have permission to delete this order'}, status=status.HTTP_403_FORBIDDEN)
 
     if order.status != 'P':
-        return Response({'error': f'Order #{pk} is not pending and cannot be deleted'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'error': f'Order #{pk} is not pending and cannot be deleted'},
+                        status=status.HTTP_403_FORBIDDEN)
 
     for item in order.items.all():
         item.product.increase_stock(item.quantity)
@@ -118,6 +119,7 @@ def delete_order(request, pk):
     order.items.all().delete()
     order.delete()
     return Response({'message': 'Order deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])

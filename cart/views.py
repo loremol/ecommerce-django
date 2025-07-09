@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from cart.models import Cart, CartItem, Discount
@@ -12,23 +13,17 @@ from products.models import Product
 class CartListView(generics.ListAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAdminUser]
 
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def get_cart(request):
-    try:
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        cart_items = cart.items.all()
-        serializer = CartItemSerializer(cart_items, many=True)
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    except Exception as e:
-        return Response(
-            {'error': 'Failed to retrieve cart items'},
-            status=status.HTTP_500_INTERNAL_SERVER_ERROR
-        )
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart_items = cart.items.all()
+    serializer = CartItemSerializer(cart_items, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 @api_view(['POST'])

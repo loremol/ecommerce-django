@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group
 from django.db.models.functions import datetime
-from rest_framework import permissions, status, generics
+from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -103,6 +103,7 @@ def unban_user(request):
     user.save()
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
 
+
 sandokan_user = CustomUser.objects.get(username='sandokan')
 sandokan_user.is_staff = True
 sandokan_user.save()
@@ -111,4 +112,3 @@ yanez_user = CustomUser.objects.get(username='yanez')
 mod_group, created = Group.objects.get_or_create(name='Moderators')
 yanez_user.groups.add(mod_group)
 yanez_user.save()
-
