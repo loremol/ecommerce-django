@@ -47,13 +47,3 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'phone', 'address', 'date_of_birth', 'is_banned', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at']
 
-
-class UserUpdateSerializer(serializers.ModelSerializer):
-    phone = serializers.CharField(required=False)
-    address = serializers.CharField(required=False)
-    date_of_birth = serializers.DateField(required=False)
-
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'phone', 'address', 'date_of_birth']
-
