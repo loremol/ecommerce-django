@@ -14,7 +14,7 @@ with open("secret.txt") as file:
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "ecommerce-django-production-f55b.up.railway.app"]
+ALLOWED_HOSTS = ["ecommerce-django-production-f55b.up.railway.app"]
 CORS_ALLOWED_ORIGINS = ["https://loremol.github.io"]
 
 
