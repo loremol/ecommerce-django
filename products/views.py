@@ -39,7 +39,7 @@ def create_product(request):
 @permission_classes([IsAdminUser])
 def update_product(request, pk):
     product = get_object_or_404(Product, pk=pk)
-    serializer = ProductSerializer(product, data=request.data)
+    serializer = SimpleProductSerializer(product, data=request.data)
     if serializer.is_valid():
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
