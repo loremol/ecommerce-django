@@ -38,7 +38,7 @@ class UserLoginSerializer(serializers.Serializer):
             if user.is_banned:
                 raise serializers.ValidationError('Account is banned')
 
-        return user
+        return True
 
 
 class UserSerializer(serializers.ModelSerializer):
