@@ -73,6 +73,50 @@ def get_own_profile(request):
 
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
+def update_user(request):
+    user = request.user
+
+    # Get the data from request
+    username = request.data.get('username')
+    email = request.data.get('email')
+    phone = request.data.get('phone', '')
+    address = request.data.get('address', '')
+    date_of_birth = request.data.get('date_of_birth')
+
+    # Validate required fields
+    if not username or not email:
+        return Response({'error': 'Username and email are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check if username is already taken by another user
+    if CustomUser.objects.filter(username=username).exclude(id=user.id).exists():
+        return Response({'error': 'Username already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Check if email is already taken by another user
+    if CustomUser.objects.filter(email=email).exclude(id=user.id).exists():
+        return Response({'error': 'Email already exists'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Update user fields
+    user.username = username
+    user.email = email
+    user.phone = phone
+    user.address = address
+
+    # Handle date_of_birth (can be null/blank)
+    if date_of_birth:
+        user.date_of_birth = date_of_birth
+
+
+    user.save()
+
+    return Response({
+        'message': 'User updated successfully',
+        'user': UserSerializer(user).data
+    }, status=status.HTTP_200_OK)
+
+
+
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def ban_user(request):
     username = request.data.get('username')
