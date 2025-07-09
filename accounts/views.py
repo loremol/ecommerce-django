@@ -1,4 +1,4 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import login, logout, authenticate
 from django.db.models.functions import datetime
 from rest_framework import permissions, status, generics
 from rest_framework.authentication import TokenAuthentication
@@ -28,7 +28,7 @@ def register(request):
 @api_view(['POST'])
 def login_view(request):
     serializer = UserLoginSerializer(data=request.data)
-    if serializer.is_valid():
+    if serializer.is_valid() and authenticate(request):
         user = serializer.validated_data
         if user.is_banned:
             return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
