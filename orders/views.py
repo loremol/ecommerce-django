@@ -14,6 +14,14 @@ from orders.serializers import OrderSerializer, OrderItemSerializer
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def get_all_orders(request):
+    orders = Order.objects.all()
+    serializer = OrderSerializer(orders, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
 def get_own_orders(request):
     orders = Order.objects.filter(user=request.user)
     serializer = OrderSerializer(orders, many=True)
