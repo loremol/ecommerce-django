@@ -65,6 +65,13 @@ def get_user(request, pk):
 
 @api_view(['PUT'])
 @authentication_classes([TokenAuthentication])
+def get_own_profile(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['PUT'])
+@authentication_classes([TokenAuthentication])
 def update_own_profile(request):
     user = request.user
     serializer = UserSerializer(user, data=request.data)
