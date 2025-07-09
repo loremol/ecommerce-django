@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from products.permissions import IsModerator
 from .models import CustomUser
-from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer, UpdateUserSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer
 
 
 @api_view(['POST'])
