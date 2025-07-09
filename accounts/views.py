@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from products.permissions import IsModerator
 from .models import CustomUser
-from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer, UserUpdateSerializer
 
 
 @api_view(['POST'])
@@ -73,7 +73,7 @@ def get_own_profile(request):
 
 class UserUpdate(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = UpdateUserSerializer
+    serializer_class = UserUpdateSerializer
     lookup_field = 'id'
     authentication_classes = [TokenAuthentication]
 
