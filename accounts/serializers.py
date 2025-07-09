@@ -48,8 +48,10 @@ class UserSerializer(serializers.ModelSerializer):
                   'updated_at']
         read_only_fields = ['id', 'created_at']
 
+
 class UpdateUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(required=False)
+    email = serializers.EmailField(required=False)
     password = serializers.CharField(required=False)
     phone = serializers.CharField(required=False)
     address = serializers.CharField(required=False)
@@ -57,4 +59,4 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'phone', 'address', 'date_of_birth']
+        fields = ['username', 'email', 'password', 'phone', 'address', 'date_of_birth']
