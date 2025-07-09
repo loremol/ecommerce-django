@@ -49,9 +49,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
-    phone = serializers.CharField(required=False, allow_blank=True)
-    address = serializers.CharField(required=False, allow_blank=True)
-    date_of_birth = serializers.DateField(required=False, allow_blank=True)
+    phone = serializers.CharField(required=False)
+    address = serializers.CharField(required=False)
+    date_of_birth = serializers.DateField(required=False)
 
     class Meta:
         model = CustomUser
