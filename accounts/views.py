@@ -26,9 +26,10 @@ def register(request):
 
 
 @api_view(['POST'])
+@permission_classes([permissions.AllowAny])
 def login_view(request):
     serializer = UserLoginSerializer(data=request.data)
-    if serializer.is_valid():
+    if serializer.is_valid() and authenticate(request):
         user = serializer.validated_data
         if user.is_banned:
             return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
