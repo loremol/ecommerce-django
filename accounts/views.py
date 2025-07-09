@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout
 from django.db.models.functions import datetime
 from rest_framework import permissions, status, generics
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -33,30 +34,19 @@ def login_view(request):
         user = serializer.validated_data
         if user.is_banned:
             return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
-        login(request, user)
         token, created = Token.objects.get_or_create(user=user)
-        response = Response({
+        return Response({
             'user': UserSerializer(user).data,
             'token': token.key},
             status=status.HTTP_200_OK)
-        response.set_cookie(
-            'auth_token',
-            value=token.key,
-            httponly=True,
-            secure=True,
-            max_age=3600,
-            samesite='None',
-        )
-        return response
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
+@permission_classes([TokenAuthentication])
 def logout_view(request):
-    # request.user.auth_token.delete()
-    logout(request)
+    request.user.auth_token.delete()
     return Response({'message': 'Logged out successfully'})
 
 
