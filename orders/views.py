@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.db.models import Sum
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -10,6 +11,7 @@ from rest_framework.response import Response
 from cart.models import Cart
 from orders.models import Order, OrderItem
 from orders.serializers import OrderSerializer, OrderItemSerializer
+from products.permissions import IsModerator
 
 
 @api_view(['GET'])
@@ -192,6 +194,17 @@ def update_order(request, pk):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+def get_order_details(request, pk):
+    order = Order.objects.get(pk=pk)
+    # Allow order owner and admin to GET it
+    if order.user != request.user and not request.user.is_staff:
+        return Response({'error': 'You do not have permission to view this order'}, status=status.HTTP_403_FORBIDDEN)
+    serializer = OrderItemSerializer(order.items.all(), many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 @api_view(['DELETE'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
@@ -212,10 +225,22 @@ def delete_order(request, pk):
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-def get_order_details(request, pk):
-    order = Order.objects.get(pk=pk)
-    # Allow order owner and admin to GET it
-    if order.user != request.user and not request.user.is_staff:
-        return Response({'error': 'You do not have permission to view this order'}, status=status.HTTP_403_FORBIDDEN)
-    serializer = OrderItemSerializer(order.items.all(), many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+@permission_classes([IsModerator])
+def get_statistics(request):
+    cancelled = Order.objects.filter(status='C').count()
+    pending = Order.objects.filter(status='P').count()
+    shipped = Order.objects.filter(status='S').count()
+    delivered = Order.objects.filter(status='D').count()
+    total = Order.objects.count()
+
+    total_revenue = Order.objects.filter(status='D').aggregate(total_revenue=Sum('total'))['total_revenue'] or 0.0
+
+    return Response({
+        'total_orders': total,
+        'cancelled_orders': cancelled,
+        'pending_orders': pending,
+        'shipped_orders': shipped,
+        'delivered_orders': delivered,
+        'total_revenue': float(total_revenue)
+    }, status=status.HTTP_200_OK)
+
