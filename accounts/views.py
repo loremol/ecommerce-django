@@ -32,8 +32,6 @@ def login_view(request):
     serializer = UserLoginSerializer(data=request.data)
     if serializer.is_valid():
         user = serializer.validated_data
-        if user.is_banned:
-            return Response({'error': 'User is banned'}, status=status.HTTP_403_FORBIDDEN)
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'user': UserSerializer(user).data,
