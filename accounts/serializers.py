@@ -49,13 +49,10 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
 
 
-class UpdateUserSerializer(serializers.Serializer):
-    username = serializers.CharField(required=False)
-    email = serializers.EmailField(required=False)
-    password = serializers.CharField(required=False)
-    phone = serializers.CharField(required=False)
-    address = serializers.CharField(required=False)
-    date_of_birth = serializers.DateField(required=False)
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'phone', 'address', 'date_of_birth']
 
     def validate(self, attrs):
         username = attrs.get('username')
@@ -70,5 +67,5 @@ class UpdateUserSerializer(serializers.Serializer):
 
         if username or email or password or phone or address or date_of_birth:
             return True
-
-        raise serializers.ValidationError("No fields to update")
+        else:
+            raise serializers.ValidationError("No fields to update")
