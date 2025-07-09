@@ -1,12 +1,12 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.decorators import api_view, authentication_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
 from cart.models import Cart, CartItem, Discount
-from cart.serializers import CartSerializer, CartItemSerializer
+from cart.serializers import CartSerializer, CartItemSerializer, DiscountSerializer
 from products.models import Product
 
 
@@ -102,3 +102,32 @@ def apply_discount(request):
         return Response(cart_serializer.data)
     else:
         return Response({'error': 'Discount code not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def create_discount(request):
+    discount = DiscountSerializer(data=request.data)
+    if discount.is_valid():
+        discount.save()
+        return Response(discount.data, status=status.HTTP_201_CREATED)
+
+    return Response(discount.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['DELETE'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def delete_discount(request, pk):
+    discount = Discount.objects.get(pk=pk)
+    discount.delete()
+    return Response({'message': 'Discount deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAdminUser])
+def get_discounts():
+    discounts = Discount.objects.all()
+    serializer = DiscountSerializer(discounts, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

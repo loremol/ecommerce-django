@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from cart.models import CartItem, Cart
+from cart.models import CartItem, Cart, Discount
 from products.serializers import ProductSerializer
 
 
@@ -48,3 +48,9 @@ class CartSerializer(serializers.ModelSerializer):
         original = self.get_original_total(obj)
         discounted = self.get_total_amount(obj)
         return original - discounted
+
+
+class DiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Discount
+        fields = ['id', 'code', 'percentage', 'expiry_date', 'category']
