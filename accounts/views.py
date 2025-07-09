@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from products.permissions import IsModerator
 from .models import CustomUser
-from .serializers import UserRegistrationSerializer, UpdateUserSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer, UpdateUserSerializer
 
 
 @api_view(['POST'])
@@ -18,7 +18,7 @@ def register(request):
         user = serializer.save()
         token, created = Token.objects.get_or_create(user=user)
         return Response({
-            'user': UpdateUserSerializer(user).data,
+            'user': UserSerializer(user).data,
             'token': token.key
         }, status=status.HTTP_201_CREATED)
 
@@ -32,7 +32,7 @@ def login_view(request):
         user = serializer.validated_data
         token, created = Token.objects.get_or_create(user=user)
         return Response({
-            'user': UpdateUserSerializer(user).data,
+            'user': UserSerializer(user).data,
             'token': token.key},
             status=status.HTTP_200_OK)
 
@@ -50,7 +50,7 @@ def logout_view(request):
 @permission_classes([IsModerator])
 class ListUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
-    serializer_class = UpdateUserSerializer
+    serializer_class = UserSerializer
 
 
 @api_view(['GET'])
@@ -60,14 +60,14 @@ def get_user(request, pk):
     user = CustomUser.objects.get(pk=pk)
     if not user:
         return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-    return Response(UpdateUserSerializer(user).data)
+    return Response(UserSerializer(user).data)
 
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def get_own_profile(request):
     user = request.user
-    serializer = UpdateUserSerializer(user)
+    serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PUT'])
