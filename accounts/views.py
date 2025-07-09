@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from products.permissions import IsModerator
 from .models import CustomUser
-from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer, UpdateUserSerializer
+from .serializers import UserRegistrationSerializer, UserLoginSerializer, UpdateUserSerializer
 
 
 @api_view(['POST'])
@@ -86,7 +86,6 @@ def update_own_profile(request):
 @permission_classes([IsModerator])
 def ban_user(request):
     username = request.data.get('username')
-
     if not username:
         return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
