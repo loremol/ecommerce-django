@@ -49,7 +49,7 @@ class UserSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at']
 
 
-class UpdateUserSerializer(serializers.ModelSerializer):
+class UpdateUserSerializer(serializers.Serializer):
     username = serializers.CharField(required=False)
     email = serializers.EmailField(required=False)
     password = serializers.CharField(required=False)
