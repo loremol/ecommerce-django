@@ -9,20 +9,20 @@ from products.models import Category, Product
 from products.serializers import CategorySerializer, ProductSerializer, SimpleProductSerializer
 
 
-class CategoryListView(generics.ListCreateAPIView):
+class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny]
-    http_method_names = ["GET"]
 
 
-class ProductListView(generics.ListCreateAPIView):
+
+class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny]
-    http_method_names = ["GET"]
+
 
 @api_view(["POST"])
 @authentication_classes([TokenAuthentication])
