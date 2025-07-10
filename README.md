@@ -38,7 +38,7 @@ The **yanez** user (yanez@gmail.com:yanez@gmail.com) is a Moderator user.
 A sample client can be accessed from this [Github Page](https://loremol.github.io/ecommerce-client/). This is its [corresponding repository](https://github.com/loremol/ecommerce-client).
 ## Troubleshooting
 Cloning the repo back to my machine I encountered an error with carriages. If the docker ENTRYPOINT doesn't seem
-to be found try setting this on git: `git config --global core.autocrlf input`.
+to be found try setting this on git: `git config --global core.autocrlf input`. After, clone again the repo and try again.
 
 # Endpoints
 The following list provides an overview of the available endpoints:
