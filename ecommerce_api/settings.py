@@ -85,7 +85,15 @@ DATABASES = {
     }
 }
 
-DATABASES['default'].update(db_from_env)
+DATABASES['default'].update(db_from_env) # Postgres instance on Railway
+
+if os.getenv("DATABASE_URL") is None: # Local, no railway => Use sqlite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'mydatabase'
+        }
+    }
 
 
 AUTH_PASSWORD_VALIDATORS = [
