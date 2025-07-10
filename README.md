@@ -21,14 +21,14 @@ The API manages three levels of permission:
 - Admin: Has access to the API order manager, discount manager, and of course user manager like the Moderator. It's the only level that can create new products and categories.
 
 ## Security
-Because only simple Token Authentication is used, no cookies are involved and thus **CSRF is unnecessary**. This application had all the unnecessary Django apps and middleware removed. 
+Because only simple Token Authentication is used, no cookies are involved and **CSRF is unnecessary**. 
 
 The Database is a **PostgreSQL instance** deployed on Railway. The credentials are loaded from the environment.
 
 The Django SECRET_KEY is generated automatically at the start of the application and **stored on disk**. It never appears in the source code, changes
 every time the application starts and is not served on any path of the domain.
 
-The application is **dockerized** in a barebone debian+python environment and listening on port 8000. The container is then exposed to port 443 on the URL https://ecommerce-django-production-f55b.up.railway.app.
+The application is **dockerized** in a lightweight debian+python environment and listening on port 8000. The container is then exposed to port 443 on the URL https://ecommerce-django-production-f55b.up.railway.app.
 
 
 # Testing information
