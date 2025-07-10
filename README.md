@@ -24,7 +24,8 @@ Because only simple Token Authentication is used, no cookies are involved and th
 
 The Database is a **PostgreSQL instance** deployed on Railway. The credentials are loaded from the environment.
 
-The Django SECRET_KEY is generated automatically at the start of the application and **stored on disk** and not served.
+The Django SECRET_KEY is generated automatically at the start of the application and **stored on disk**. It never appears in the source code, changes
+every time the application starts and is not served on any path of the domain.
 
 The application is **dockerized** in a barebone python environment and listening on port 8000. The container is then exposed to port 443 on the URL https://ecommerce-django-production-f55b.up.railway.app.
 
