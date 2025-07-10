@@ -234,7 +234,7 @@ def delete_order(request, pk):
 @api_view(['GET'])
 @login_required
 @authentication_classes([TokenAuthentication])
-@permission_classes([IsModerator])
+@permission_classes([IsAdminUser])
 def get_statistics(request):
     cancelled = Order.objects.filter(status='C').count()
     pending = Order.objects.filter(status='P').count()
