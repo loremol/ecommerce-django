@@ -167,3 +167,4 @@ def unban_user(request):
     user_to_unban.save()
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
 
+

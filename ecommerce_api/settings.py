@@ -14,8 +14,8 @@ with open("secret.txt") as file:
 
 DEBUG = False
 
-# 127.0.0.1 and null left for exam testing with local docker purposes - I would remove it in production
-ALLOWED_HOSTS = ["127.0.0.1", "ecommerce-django-production-f55b.up.railway.app"]
+# 127.0.0.1, localhost and null left for exam testing with local docker purposes - I would remove them in production
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "ecommerce-django-production-f55b.up.railway.app"]
 CORS_ALLOWED_ORIGINS = ["null", "https://loremol.github.io"]
 
 INSTALLED_APPS = [
@@ -91,7 +91,7 @@ if os.getenv("DATABASE_URL") is None: # Local, no railway => Use sqlite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'mydatabase'
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
