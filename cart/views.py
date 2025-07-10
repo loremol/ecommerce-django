@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
@@ -18,6 +19,7 @@ class CartListView(generics.ListAPIView):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def get_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
@@ -27,6 +29,7 @@ def get_cart(request):
 
 
 @api_view(['POST'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def add_to_cart(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
@@ -75,6 +78,7 @@ def add_to_cart(request):
 
 
 @api_view(['DELETE'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def clear_cart(request):
     cart = get_object_or_404(Cart, user=request.user)
@@ -85,6 +89,7 @@ def clear_cart(request):
 
 
 @api_view(['POST'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def apply_discount(request):
     cart = get_object_or_404(Cart, user=request.user)
@@ -105,6 +110,7 @@ def apply_discount(request):
 
 
 @api_view(['POST'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def create_discount(request):
@@ -117,6 +123,7 @@ def create_discount(request):
 
 
 @api_view(['DELETE'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def delete_discount(request, pk):
@@ -126,6 +133,7 @@ def delete_discount(request, pk):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def get_discounts(request):

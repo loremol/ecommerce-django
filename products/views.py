@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
@@ -22,6 +23,7 @@ class ProductListView(generics.ListAPIView):
 
 
 @api_view(["POST"])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def create_product(request):
@@ -34,6 +36,7 @@ def create_product(request):
 
 
 @api_view(["PUT"])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def update_product(request, pk):
@@ -46,6 +49,7 @@ def update_product(request, pk):
 
 
 @api_view(["DELETE"])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def delete_product(request, pk):
@@ -55,6 +59,7 @@ def delete_product(request, pk):
 
 
 @api_view(["POST"])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def create_category(request):
@@ -66,6 +71,7 @@ def create_category(request):
 
 
 @api_view(["PUT"])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def update_category(request, pk):
@@ -78,6 +84,7 @@ def update_category(request, pk):
 
 
 @api_view(["DELETE"])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def delete_category(request, pk):

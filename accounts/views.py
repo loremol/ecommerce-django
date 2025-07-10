@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.db.models.functions import datetime
 from rest_framework import status, generics
@@ -40,12 +41,14 @@ def login_view(request):
 
 
 @api_view(['POST'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def logout_view(request):
     request.user.auth_token.delete()
     return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
 
 
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 class ListUsersView(generics.ListAPIView):
@@ -54,6 +57,7 @@ class ListUsersView(generics.ListAPIView):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def get_user(request, pk):
@@ -64,6 +68,7 @@ def get_user(request, pk):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def get_own_profile(request):
     user = request.user
@@ -72,6 +77,7 @@ def get_own_profile(request):
 
 
 @api_view(['PUT'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def update_user(request):
     user = request.user
@@ -112,6 +118,7 @@ def update_user(request):
 
 
 @api_view(['PUT'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def ban_user(request):
@@ -138,6 +145,7 @@ def ban_user(request):
 
 
 @api_view(['PUT'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def unban_user(request):
@@ -158,12 +166,3 @@ def unban_user(request):
     user_to_unban.save()
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
 
-
-sandokan_user, created = CustomUser.objects.get_or_create(username='sandokan', email='sandokan@gmail.com', password='sandokan@gmail.com')
-sandokan_user.is_staff = True
-sandokan_user.save()
-
-yanez_user, created = CustomUser.objects.get_or_create(username='yanez', email='yanez@gmail.com', password='yanez@gmail.com')
-mod_group, created = Group.objects.get_or_create(name='Moderators')
-yanez_user.groups.add(mod_group)
-yanez_user.save()

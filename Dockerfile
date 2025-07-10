@@ -10,6 +10,7 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /code
 
 # Install system dependencies
+RUN apt-get update && apt-get install -y netcat-traditional
 COPY requirements.txt /code/
 RUN pip install -r requirements.txt
 

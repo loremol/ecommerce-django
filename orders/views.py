@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
@@ -15,6 +16,7 @@ from products.permissions import IsModerator
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def get_all_orders(request):
@@ -24,6 +26,7 @@ def get_all_orders(request):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def get_own_orders(request):
     orders = Order.objects.filter(user=request.user)
@@ -32,6 +35,7 @@ def get_own_orders(request):
 
 
 @api_view(['POST'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def checkout(request):
     # Get the user's cart
@@ -107,6 +111,7 @@ def checkout(request):
 
 
 @api_view(['PUT'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def update_order(request, pk):
     order = Order.objects.get(pk=pk)
@@ -196,6 +201,7 @@ def update_order(request, pk):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 def get_order_details(request, pk):
     order = Order.objects.get(pk=pk)
@@ -207,6 +213,7 @@ def get_order_details(request, pk):
 
 
 @api_view(['DELETE'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
 def delete_order(request, pk):
@@ -225,6 +232,7 @@ def delete_order(request, pk):
 
 
 @api_view(['GET'])
+@login_required
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsModerator])
 def get_statistics(request):
