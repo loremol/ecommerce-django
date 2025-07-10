@@ -159,11 +159,11 @@ def unban_user(request):
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
 
 
-sandokan_user = CustomUser.objects.get(username='sandokan')
+sandokan_user, created = CustomUser.objects.get_or_create(username='sandokan', email='sandokan@gmail.com', password='sandokan@gmail.com')
 sandokan_user.is_staff = True
 sandokan_user.save()
 
-yanez_user = CustomUser.objects.get(username='yanez')
+yanez_user, created = CustomUser.objects.get_or_create(username='yanez', email='yanez@gmail.com', password='yanez@gmail.com')
 mod_group, created = Group.objects.get_or_create(name='Moderators')
 yanez_user.groups.add(mod_group)
 yanez_user.save()
