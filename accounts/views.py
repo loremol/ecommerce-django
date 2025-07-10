@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import Group
 from django.db.models.functions import datetime
 from rest_framework import status, generics
@@ -48,12 +49,12 @@ def logout_view(request):
     return Response({'message': 'Logged out successfully'}, status=status.HTTP_200_OK)
 
 
-@login_required
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsModerator])
-class ListUsersView(generics.ListAPIView):
+
+class ListUsersView(LoginRequiredMixin, generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [IsModerator]
+    authentication_classes = [TokenAuthentication]
 
 
 @api_view(['GET'])

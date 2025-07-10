@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404
 from rest_framework import generics, status
 from rest_framework.authentication import TokenAuthentication
@@ -10,13 +11,13 @@ from products.models import Category, Product
 from products.serializers import CategorySerializer, ProductSerializer, SimpleProductSerializer
 
 
-class CategoryListView(generics.ListAPIView):
+class CategoryListView(LoginRequiredMixin, generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     authentication_classes = [TokenAuthentication]
 
 
-class ProductListView(generics.ListAPIView):
+class ProductListView(LoginRequiredMixin, generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [TokenAuthentication]
