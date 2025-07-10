@@ -5,6 +5,7 @@ The Models allow to manage Products, Categories, Discounts, Cart, Orders.
 Admin endpoints allow to CRUD all stored data and to ban/unban users.
 
 It employs [Gunicorn](https://github.com/benoitc/gunicorn) for deployment.
+It uses a Postgres instance on Railway if deployed there, if it detects being on a local development machine it uses a local sqlite db.
 
 ## Implementation choices
 The user ban check is in place in the UserLoginSerializer instead of in the function-based view.
@@ -35,6 +36,9 @@ The **sandokan** user (login email:pwd = sandokan@gmail.com:sandokan@gmail.com) 
 The **yanez** user (yanez@gmail.com:yanez@gmail.com) is a Moderator user.
 ## HTML/JS Client
 A sample client can be accessed from this [Github Page](https://loremol.github.io/ecommerce-client/). This is its [corresponding repository](https://github.com/loremol/ecommerce-client).
+## Troubleshooting
+Cloning the repo back to my machine I encountered an error with carriages. If the docker ENTRYPOINT doesn't seem
+to be found try setting this on git: `git config --global core.autocrlf input`.
 
 # Endpoints
 The following list provides an overview of the available endpoints:
