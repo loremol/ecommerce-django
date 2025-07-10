@@ -12,7 +12,7 @@ with open("secret.txt", "w") as file:
 with open("secret.txt") as file:
     SECRET_KEY = file.read()
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["ecommerce-django-production-f55b.up.railway.app"]
 CORS_ALLOWED_ORIGINS = ["https://loremol.github.io"]

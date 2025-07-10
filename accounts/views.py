@@ -103,14 +103,12 @@ def update_user(request):
     if date_of_birth:
         user.date_of_birth = date_of_birth
 
-
     user.save()
 
     return Response({
         'message': 'User updated successfully',
         'user': UserSerializer(user).data
     }, status=status.HTTP_200_OK)
-
 
 
 @api_view(['PUT'])

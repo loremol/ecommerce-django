@@ -44,6 +44,6 @@ class UserLoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'phone', 'address', 'date_of_birth', 'is_banned', 'created_at', 'updated_at']
+        fields = ['id', 'username', 'email', 'phone', 'address', 'date_of_birth', 'is_banned', 'created_at',
+                  'updated_at']
         read_only_fields = ['id', 'created_at']
-

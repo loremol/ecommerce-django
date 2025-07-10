@@ -22,6 +22,7 @@ def get_all_orders(request):
     serializer = OrderSerializer(orders, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 def get_own_orders(request):
@@ -241,6 +242,5 @@ def get_statistics(request):
         'pending_orders': pending,
         'shipped_orders': shipped,
         'delivered_orders': delivered,
-        'total_revenue': float(total_revenue)
+        'total_revenue': total_revenue
     }, status=status.HTTP_200_OK)
-

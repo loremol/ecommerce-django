@@ -124,6 +124,7 @@ def delete_discount(request, pk):
     discount.delete()
     return Response({'message': 'Discount deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
+
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
