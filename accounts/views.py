@@ -1,6 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import Group
 from django.db.models.functions import datetime
 from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
@@ -8,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
 
-from products.permissions import IsModerator
+from accounts.permissions import IsModerator
 from .models import CustomUser
 from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer
 

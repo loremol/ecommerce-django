@@ -12,7 +12,6 @@ from rest_framework.response import Response
 from cart.models import Cart
 from orders.models import Order, OrderItem
 from orders.serializers import OrderSerializer, OrderItemSerializer
-from products.permissions import IsModerator
 
 
 @api_view(['GET'])
