@@ -10,8 +10,7 @@ It uses a Postgres instance on Railway if deployed there, if it detects being on
 ## Implementation choices
 The user ban check is in place in the UserLoginSerializer instead of in the function-based view.
 
-The cart and order system are somewhat elaborate and work with the Product stock levels. The order status transitions are carefully managed
-to avoid nonsense order logic. 
+The cart and order system work with the Product stock levels. The order status transitions to avoid incorrect order status logic. 
 The discounts have an expiry date and apply to a specific Category of Products, so that when applied on the cart they don't
 discount the entire cart products but only the ones that share the discount Category.
 
