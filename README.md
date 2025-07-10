@@ -71,7 +71,7 @@ The following list provides an overview of the available endpoints:
 *   **Cart Endpoints**
     *   `GET /cart/`: Get the cart details
     *   `POST /cart/add/`: Add an item to the cart
-    *   `POST /cart/clear/`: Clear the cart
+    *   `DELETE /cart/clear/`: Clear the cart
 *   **Discount Endpoints**
     *   `POST /cart/apply_discount/`: Apply a discount
     *   `GET /cart/discounts/`: Get all available discounts
@@ -84,7 +84,7 @@ The following list provides an overview of the available endpoints:
     *   `GET /orders/<int:pk>/`: Get the details of a specific order
 *   **Checkout and Update Endpoints**
     *   `POST /orders/checkout/`: Initiate checkout for a Cart instance
-    *   `POST /orders/update/<int:pk>/`: Update an existing order
+    *   `PUT /orders/update/<int:pk>/`: Update an existing order
 *   **Admin Endpoints**
     *   `GET /orders/all/`: Get all the orders from all the users
     *   `DELETE /orders/delete/<int:pk>/`: Delete a specific order
