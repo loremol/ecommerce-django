@@ -120,16 +120,19 @@ def ban_user(request):
     if not username:
         return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
 
-    user = CustomUser.objects.get(username=username)
-    if not user:
+    user_to_ban = CustomUser.objects.get(username=username)
+    if not user_to_ban:
         return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    if request.user == user:
+    if request.user == user_to_ban:
         return Response({'error': 'You cannot ban yourself.'}, status=status.HTTP_403_FORBIDDEN)
 
-    user.is_banned = True
-    user.updated_at = datetime.datetime.now()
-    user.save()
+    if not request.user.is_staff and user_to_ban.is_staff:
+        return Response({'error': 'You cannot ban an Admin.'}, status=status.HTTP_403_FORBIDDEN)
+
+    user_to_ban.is_banned = True
+    user_to_ban.updated_at = datetime.datetime.now()
+    user_to_ban.save()
 
     return Response({'message': f'User {username} banned successfully'}, status=status.HTTP_200_OK)
 
@@ -141,14 +144,18 @@ def unban_user(request):
     username = request.data.get('username')
     if not username:
         return Response({'error': 'Username not provided'}, status=status.HTTP_400_BAD_REQUEST)
-    user = CustomUser.objects.get(username=username)
-    if not user:
+    user_to_unban = CustomUser.objects.get(username=username)
+    if not user_to_unban:
         return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-    if request.user == user:
+    if request.user == user_to_unban:
         return Response({'error': 'You cannot unban yourself.'}, status=status.HTTP_403_FORBIDDEN)
-    user.is_banned = False
-    user.updated_at = datetime.datetime.now()
-    user.save()
+
+    if not request.user.is_staff and user_to_unban.is_staff:
+        return Response({'error': 'You cannot unban an Admin.'}, status=status.HTTP_403_FORBIDDEN)
+
+    user_to_unban.is_banned = False
+    user_to_unban.updated_at = datetime.datetime.now()
+    user_to_unban.save()
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
 
 
