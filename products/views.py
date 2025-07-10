@@ -11,13 +11,13 @@ from products.models import Category, Product
 from products.serializers import CategorySerializer, ProductSerializer, SimpleProductSerializer
 
 
-class CategoryListView(LoginRequiredMixin, generics.ListAPIView):
+class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     authentication_classes = [TokenAuthentication]
 
 
-class ProductListView(LoginRequiredMixin, generics.ListAPIView):
+class ProductListView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     authentication_classes = [TokenAuthentication]
