@@ -2,17 +2,11 @@
 
 echo "Waiting for postgres..."
 if [ -n "$DATABASE_URL" ]; then
-    echo "Using environment variable DATABASE_URL"
-    sql_host="postgres.railway.internal"
-else
-    echo "Using default docker database URL"
-    sql_host="db"
+    echo "Using default docker postgres"
+    while ! nc -z db 5432; do
+      sleep 0.1
+    done
 fi
-
-
-while ! nc -z $sql_host 5432; do
-  sleep 0.1
-done
 
 echo "PostgreSQL started"
 
