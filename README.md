@@ -32,7 +32,7 @@ The application is **dockerized** in a barebone python environment and listening
 # Testing information
 The **sandokan** user (login email:pwd = sandokan@gmail.com:sandokan@gmail.com) is an Admin/is_staff user (has IsAdmin permission).
 The **yanez** user (yanez@gmail.com:yanez@gmail.com) is a Moderator user.
-
+## HTML/JS Client
 A sample client can be accessed from this [Github Page](https://loremol.github.io/ecommerce-client/). This is its [corresponding repository](https://github.com/loremol/ecommerce-client).
 
 # Endpoints
