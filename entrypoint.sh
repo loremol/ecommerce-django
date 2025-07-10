@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Waiting for postgres..."
-if [ -n "$DATABASE_URL" ]; then
+if [ -z "$DATABASE_URL" ]; then
     echo "Using default docker postgres"
     while ! nc -z db 5432; do
       sleep 0.1
